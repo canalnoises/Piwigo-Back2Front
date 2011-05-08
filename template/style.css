@@ -1,0 +1,12 @@
+a.reverse {
+  display:inline-block;
+  border:1px solid #666 !important;
+  padding:3px 5px;
+  margin-bottom:10px;
+  font-size:15px;
+  font-style:italic;	
+}
+a.reverse img {
+  vertical-align:top;
+  border:none !important;
+}

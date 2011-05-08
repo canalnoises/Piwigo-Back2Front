@@ -1,0 +1,1 @@
+Ajoute un lien sous l'image pour afficher une version alternative (pour des cartes-postales par exemple)

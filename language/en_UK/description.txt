@@ -1,0 +1,1 @@
+Add a link on picture's page to show a alternative version of the pic (for postcards for example)
