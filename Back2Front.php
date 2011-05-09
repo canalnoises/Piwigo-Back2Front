@@ -61,7 +61,8 @@ function Back2Front_picture_content($content, $image)
  */
 function Back2Front_picture_modify()
 {
-  global $page, $template;
+  global $page, $template, $conf;
+  $conf['back2front'] = explode(',',$conf['back2front']);
   
   if ($page['page'] == 'picture_modify')
   {
@@ -74,50 +75,97 @@ function Back2Front_picture_modify()
         /* frontside exists */
         if (picture_exists($_POST['b2f_front_id']))
         {
-          $query = "
-            INSERT INTO ".B2F_TABLE."
-            VALUES(".$_POST['b2f_front_id'].", ".$_GET['image_id'].", ".$_POST['b2f_old_level'].")
-            ON DUPLICATE KEY UPDATE image_id = ".$_POST['b2f_front_id'].", old_level = ".$_POST['b2f_old_level']."
-          ;";
-          pwg_query($query);
+          /* search if recto has already a verso */
+          $query = "SELECT verso_id
+            FROM ".B2F_TABLE."
+            WHERE image_id = ".$_POST['b2f_front_id'].";";
+          $result = pwg_query($query);
+          list($recto_current_verso['id']) = pwg_db_fetch_row($result);
           
-          $query = "
-            UPDATE ".IMAGES_TABLE."
-            SET level = 99
-            WHERE id = ".$_GET['image_id']."
-          ;";
-          pwg_query($query);
+          if (pwg_db_num_rows($result) AND $recto_current_verso['id'] != $_GET['image_id'])
+          {
+            $recto_current_verso['link'] = get_root_url().'admin.php?page=picture_modify&amp;cat_id=&amp;image_id='.$recto_current_verso['id'];
+            $template->append('errors', l10n('This picture has already a backside : ').'<a href="'.$recto_current_verso['link'].'">'.$recto_current_verso['id'].'</a>');
+          }
+          /* recto is clean */
+          else
+          {
+            $verso_categories = implode(',',array_keys($template->get_template_vars('associated_options')));
+            pwg_query("INSERT INTO ".B2F_TABLE."
+              VALUES(".$_POST['b2f_front_id'].", ".$_GET['image_id'].", '".$verso_categories."')
+              ON DUPLICATE KEY UPDATE image_id = ".$_POST['b2f_front_id'].";");
+            
+            /* move the verso ? */
+            if (isset($_POST['b2f_move_verso']))
+            {
+              pwg_query("DELETE FROM ".IMAGE_CATEGORY_TABLE."
+                WHERE image_id = ".$_GET['image_id'].";");
+                
+              pwg_query("INSERT INTO ".IMAGE_CATEGORY_TABLE."
+                VALUES(".$_GET['image_id'].", ".$conf['back2front'][0].", NULL);");
+            }
           
-          $template->assign(array(
-            'B2F_IS_VERSO' => 'checked="checked"',
-            'B2F_FRONT_ID' => $_POST['b2f_front_id'],
-            'B2F_OLD_LEVEL' => $_POST['b2f_old_level'],
-          ));
+            $template->assign(array(
+              'B2F_IS_VERSO' => 'checked="checked"',
+              'B2F_FRONT_ID' => $_POST['b2f_front_id'],
+            ));
+            
+            $template->append('infos', l10n('This picture is now the backside of the picture n° ').$_POST['b2f_front_id']);
+          }
         }
         else
         {
-          $template->assign('errors', l10n('Unknown id for frontside picture'));
+          $template->append('errors', l10n('Unknown id for frontside picture : ').$_POST['b2f_front_id']);
         }
       }
       /* picture isn't verso */
       else
       {
-        $query = "
-          DELETE FROM ".B2F_TABLE." 
-          WHERE verso_id = ".$_GET['image_id']."
-        ;";
-        pwg_query($query);
+        /* search if it was a verso */
+        $query = "SELECT categories
+          FROM ".B2F_TABLE."
+          WHERE verso_id = ".$_GET['image_id'].";";
+        $result = pwg_query($query);
         
-        $query = "
-          UPDATE ".IMAGES_TABLE."
-          SET level = ".$_POST['b2f_old_level']."
-          WHERE id = ".$_GET['image_id']."
-        ;";
-        pwg_query($query);
-        
-        $template->assign(array(
-          'level_options_selected' => array($_POST['b2f_old_level']),
-        ));
+        /* it must be restored to its original categories (see criteria on maintain.inc) */
+        if (pwg_db_num_rows($result))
+        {
+          /* original categories */
+          list($item['categories']) = pwg_db_fetch_row($result);
+          /* catch current categories */
+          $versos_infos = pwg_query("SELECT category_id FROM ".IMAGE_CATEGORY_TABLE." WHERE image_id = ".$_GET['image_id'].";");
+          while (list($verso_cat) = pwg_db_fetch_row($versos_infos))
+          {
+            $current_verso_cats[] = $verso_cat;
+          }
+          /* if verso € 'versos' cat only */
+          if (count($current_verso_cats) == 1 AND $current_verso_cats[0] == $conf['back2front'][0])
+          {
+            foreach (explode(',',$item['categories']) as $cat)
+            {
+              $datas[] = array(
+                'image_id' => $_GET['image_id'],
+                'category_id' => $cat,
+                );
+            }
+            if (isset($datas))
+            {
+              mass_inserts(
+                IMAGE_CATEGORY_TABLE,
+                array('image_id', 'category_id'),
+                $datas
+                );
+            }
+          }
+          
+          pwg_query("DELETE FROM ".IMAGE_CATEGORY_TABLE."
+            WHERE image_id = ".$_GET['image_id']." AND category_id = ".$conf['back2front'][0].";");
+          
+          pwg_query("DELETE FROM ".B2F_TABLE." 
+            WHERE verso_id = ".$_GET['image_id'].";");
+            
+          $template->append('infos', l10n('This picture is no longer a backside'));
+        }
       }
     }
     /* get saved values */
@@ -125,7 +173,7 @@ function Back2Front_picture_modify()
     {
       /* is the pisture a verso ? */
       $query = "
-        SELECT image_id, old_level
+        SELECT image_id
         FROM ".B2F_TABLE."
         WHERE verso_id = ".$_GET['image_id']."
       ;";
@@ -133,21 +181,18 @@ function Back2Front_picture_modify()
       
       if (pwg_db_num_rows($result))
       {
-        $item = pwg_db_fetch_assoc($result);
+        list($recto_id) = pwg_db_fetch_row($result);
         $template->assign(array(
           'B2F_IS_VERSO' => 'checked="checked"',
-          'B2F_FRONT_ID' => $item['image_id'],
-          'B2F_OLD_LEVEL' => $item['old_level'],
+          'B2F_FRONT_ID' => $recto_id,
         ));
       }
       /* is the picture a front ? */
       else
       {
-        $query = "
-          SELECT verso_id
+        $query = "SELECT verso_id
           FROM ".B2F_TABLE."
-          WHERE image_id = ".$_GET['image_id']."
-        ;";
+          WHERE image_id = ".$_GET['image_id'].";";
         $result = pwg_query($query);
         
         if (pwg_db_num_rows($result))
@@ -155,11 +200,9 @@ function Back2Front_picture_modify()
           include_once(PHPWG_ROOT_PATH.'include/functions_picture.inc.php');
           
           $item = pwg_db_fetch_assoc($result);
-          $query = "
-            SELECT id, name, file
+          $query = "SELECT id, name, file
             FROM ".IMAGES_TABLE."
-            WHERE id = ".$item['verso_id']."
-          ;";
+            WHERE id = ".$item['verso_id'].";";
           $item = pwg_db_fetch_assoc(pwg_query($query));
           
           $template->assign(array(
@@ -185,31 +228,6 @@ function picture_exists($id)
   
   if (pwg_db_num_rows($result)) return true;
   else return false;
-}
-
-
-$versos = null; // needs to be declared outside any function for the array_filter callback ?!
-/*
- * Change/remove navigation thumbnails
- */
-function Back2Front_items()
-{
-  global $template, $page, $versos;
-  
-  /* search all verso ids */
-  $query = "
-    SELECT verso_id as id
-    FROM ".B2F_TABLE."
-  ;";
-  $versos = array_values(array_from_query($query, 'id'));
-  
-  /* output */
-  function remove_versos($item)
-  {
-    global $versos;
-    return !in_array($item, $versos);
-  }
-  $page['items'] = array_values(array_filter($page['items'], 'remove_versos'));
 }
 
 ?>
