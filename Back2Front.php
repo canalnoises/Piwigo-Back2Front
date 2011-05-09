@@ -32,7 +32,7 @@ function Back2Front_picture_content($content, $image)
     /* admin link */
     if (is_admin())
     {
-      $template->assign('VERSO_U_ADMIN', get_root_url().'admin.php?page=picture_modify&amp;cat_id=&amp;image_id='.$verso['id']);
+      $template->assign('VERSO_U_ADMIN', get_root_url().'admin.php?page=picture_modify&amp;image_id='.$verso['id']);
       $template->set_filename('B2F_admin_button', dirname(__FILE__).'/template/admin_button.tpl');
       $template->concat('PLUGIN_PICTURE_ACTIONS', $template->parse('B2F_admin_button', true));
     }
@@ -78,7 +78,17 @@ function Back2Front_picture_modify()
       /* catch all verso and recto ids */
       $query = "SELECT image_id, verso_id
         FROM ".B2F_TABLE.";";
-      $all_recto_verso = array_combine(array_from_query($query, 'image_id'), array_from_query($query, 'verso_id'));
+      $rectos = array_from_query($query, 'image_id');
+      $versos = array_from_query($query, 'verso_id');
+      if (count($rectos) != 0)
+      {
+        $all_recto_verso = array_combine($rectos, $versos);
+      }
+      else
+      {
+        $all_recto_verso = array(0=>0);
+      }
+      unset($rectos, $versos);
       
       /* verso don't exists */
       if (!picture_exists($_POST['b2f_front_id']))
@@ -94,14 +104,14 @@ function Back2Front_picture_modify()
       else if (in_array($_POST['b2f_front_id'], array_keys($all_recto_verso)))
       {
           $recto_current_verso['id'] = $all_recto_verso[$_POST['b2f_front_id']];
-          $recto_current_verso['link'] = get_root_url().'admin.php?page=picture_modify&amp;cat_id=&amp;image_id='.$recto_current_verso['id'];
+          $recto_current_verso['link'] = get_root_url().'admin.php?page=picture_modify&amp;image_id='.$recto_current_verso['id'];
           $template->append('errors', l10n('This picture has already a backside : ').'<a href="'.$recto_current_verso['link'].'">'.$recto_current_verso['id'].'</a>');
       }
       /* recto is already a verso */
       else if (in_array($_POST['b2f_front_id'], array_values($all_recto_verso)))
       {
           $recto_is_verso['id'] = $_POST['b2f_front_id'];
-          $recto_is_verso['link'] = get_root_url().'admin.php?page=picture_modify&amp;cat_id=&amp;image_id='.$recto_is_verso['id'];
+          $recto_is_verso['link'] = get_root_url().'admin.php?page=picture_modify&amp;image_id='.$recto_is_verso['id'];
           $template->append('errors', l10n('This picture is already a backside : ').'<a href="'.$recto_is_verso['link'].'">'.$recto_is_verso['id'].'</a>');
       }
       /* everything is fine */
@@ -228,7 +238,7 @@ function Back2Front_picture_modify()
         
         $template->assign(array(
           'B2F_VERSO_ID' => $item['id'],
-          'B2F_VERSO_URL' => get_root_url().'admin.php?page=picture_modify&amp;cat_id=&amp;image_id='.$item['id'],
+          'B2F_VERSO_URL' => get_root_url().'admin.php?page=picture_modify&amp;image_id='.$item['id'],
           'B2F_VERSO_NAME' => get_image_name($item['name'], $item['file']),
         ));
       }
