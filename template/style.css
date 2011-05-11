@@ -5,8 +5,10 @@ a.reverse {
   margin-bottom:10px;
   font-size:15px;
   font-style:italic;	
+  height:1em;
 }
 a.reverse img {
+  margin:0 !important;
   vertical-align:top;
   border:none !important;
 }

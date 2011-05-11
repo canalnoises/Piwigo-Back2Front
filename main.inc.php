@@ -18,7 +18,24 @@ define('B2F_TABLE', $prefixeTable . 'image_verso');
 load_language('plugin.lang', B2F_PATH);
 include_once(B2F_PATH . 'Back2Front.php');
 
-add_event_handler('render_element_content', 'Back2Front_picture_content', 99, 2);
-add_event_handler('loc_end_admin', 'Back2Front_picture_modify');
+if (script_basename() == 'picture')
+{
+  add_event_handler('render_element_content', 'Back2Front_picture_content', 99, 2);
+}
+
+if (script_basename() == 'admin')
+{
+  add_event_handler('get_admin_plugin_menu_links', 'Back2Front_picture_modify');
+  // add_event_handler('loc_begin_admin_page', 'Back2Front_picture_modify'); /* for Piwigo 2.2.2 */
+  
+	add_event_handler('get_admin_plugin_menu_links', 'Back2Front_admin_menu');
+	function Back2Front_admin_menu($menu) 
+	{
+		array_push($menu, array(
+			'NAME' => 'Back2Front',
+			'URL' => get_root_url().'admin.php?page=plugin-' . B2F_DIR));
+		return $menu;
+	}
+}
 
 ?>
