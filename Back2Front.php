@@ -158,8 +158,8 @@ function Back2Front_picture_modify($menu)
           
           pwg_query("DELETE FROM ".IMAGE_CATEGORY_TABLE."
             WHERE image_id = ".$_GET['image_id'].";");
-          pwg_query("INSERT INTO ".IMAGE_CATEGORY_TABLE."
-            VALUES(".$_GET['image_id'].", ".$conf['back2front'][0].", NULL);");
+          pwg_query("INSERT INTO ".IMAGE_CATEGORY_TABLE."(image_id, category_id)
+            VALUES(".$_GET['image_id'].", ".$conf['back2front'][0].");");
             
           // random representant for each categories
           set_random_representant($verso_categories);

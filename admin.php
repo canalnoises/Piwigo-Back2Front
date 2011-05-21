@@ -8,13 +8,13 @@ $conf['back2front'] = explode(',', $conf['back2front']);
 // Enregistrement de la configuration
 if (isset($_POST['submit']))
 {
-	$conf['back2front'] = array($conf['back2front'][0], $_POST['switch_mode'], $_POST['transition']);
-			
-    $query = 'UPDATE ' . CONFIG_TABLE . '
-		SET value="' . implode (',', $conf['back2front']) . '"
-		WHERE param="back2front"';
-    pwg_query($query);
+	$conf['back2front'] = array(
+    $conf['back2front'][0], 
+    $_POST['switch_mode'], 
+    $_POST['transition']
+  );
 	
+  conf_update_param('back2front', implode (',', $conf['back2front']));
 	array_push($page['infos'], l10n('Information data registered in database'));
 }
 

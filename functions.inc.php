@@ -1,4 +1,6 @@
 <?php
+if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
+
 /* $item = array('verso_id', 'categories'); */
 function back2front_restaure_categories($item)
 {
