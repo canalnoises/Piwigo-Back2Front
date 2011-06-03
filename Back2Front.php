@@ -31,30 +31,8 @@ function Back2Front_picture_content($content, $image)
     $verso = pwg_db_fetch_assoc($result);
     $conf['back2front'] = explode(',',$conf['back2front']);
     
-    // calculation of width and height
-    include_once(PHPWG_ROOT_PATH.'include/functions_picture.inc.php');
-    
-    if (!empty($verso['width']))
-    {
-      list(
-        $verso['scaled_width'],
-        $verso['scaled_height']
-        ) = get_picture_size(
-          $verso['width'],
-          $verso['height'],
-          @$user['maxwidth'],
-          @$user['maxheight']
-        );
-    }
-
     /* websize picture */
-    $template->assign(array(
-      'VERSO_URL' => $verso['path'],
-      'VERSO_WIDTH' => $verso['scaled_width'],
-      'VERSO_HEIGHT' => $verso['scaled_height'],
-      'b2f_switch_mode' => $conf['back2front'][1],
-      'b2f_transition' => $conf['back2front'][2],
-    ));
+    $template->assign('VERSO_URL', $verso['path']);
     
     /* admin link */
     if (is_admin())
@@ -69,28 +47,80 @@ function Back2Front_picture_content($content, $image)
     {
       $template->assign('VERSO_HD', get_high_url($verso));
     }
+    
+    /* link name */
+    $conf['back2front'][4] = unserialize($conf['back2front'][4]);
+    if (!empty($conf['back2front'][4][$user['language']]))
+    {
+      if (strpos($conf['back2front'][4][$user['language']], '|') !== false)
+      {
+        $conf['back2front'][4] = explode('|', $conf['back2front'][4][$user['language']]);
+      }
+      else
+      {
+        $conf['back2front'][4] = array($conf['back2front'][4][$user['language']], $conf['back2front'][4][$user['language']]);
+      }
+    }
+    else if (!empty($conf['back2front'][4]['default']))
+    {
+      if (strpos($conf['back2front'][4]['default'], '|') != false)
+      {
+        $conf['back2front'][4] = explode('|', $conf['back2front'][4]['default']);
+      }
+      else
+      {
+        $conf['back2front'][4] = array($conf['back2front'][4]['default'], $conf['back2front'][4]['default']);
+      }
+    }
+    else
+    {
+      $conf['back2front'][4] = array(l10n('See back'), l10n('See front'));
+    }
 
     /* template & output */
-    $template->set_filenames(array('B2F_picture_content' => dirname(__FILE__).'/template/picture_content.tpl') );
-    $template->assign('B2F_PATH', B2F_PATH);
+    $template->set_filenames(array('B2F_picture_content' => dirname(__FILE__).'/template/picture_content.tpl') );    
+    $template->assign(array(
+      'B2F_PATH' => B2F_PATH,
+      'b2f_switch_mode' => $conf['back2front'][1],
+      'b2f_transition' => $conf['back2front'][2],
+      'b2f_position' => $conf['back2front'][3],
+      'b2f_see_back' => $conf['back2front'][4][0],
+      'b2f_see_front' => $conf['back2front'][4][1],
+    ));
     
-    return $template->parse('B2F_picture_content', true).$content;  
+    switch ($conf['back2front'][3])
+    {
+      case 'toolbar':
+        $template->set_prefilter('picture', 'Back2Front_toolbar_prefilter');  
+        break;
+      case 'top':
+        return $template->parse('B2F_picture_content', true)."\n".$content;
+        break;
+      case 'bottom':
+        return $content."\n".$template->parse('B2F_picture_content', true);
+        break;
+    }    
   }
-  else 
-  {
-    return $content;
-  }
+  
+  return $content;
+}
+
+function Back2Front_toolbar_prefilter($content, &$smarty)
+{
+  $search = '{/if}{/strip}{*caddie management END*}';
+  $replacement = $search."\n".file_get_contents(B2F_PATH.'template/picture_content.tpl');
+  return str_replace($search, $replacement, $content);
 }
 
 
 /*
  * Add field on picture modify page
  */
-function Back2Front_picture_modify($menu)
+function Back2Front_picture_modify()
 {
   global $page, $template, $conf;
   
-  if ($page['page'] != 'picture_modify') return $menu;
+  if ($page['page'] != 'picture_modify') return;
   $conf['back2front'] = explode(',',$conf['back2front']);
   
 /* SAVE VALUES */
@@ -266,8 +296,6 @@ function Back2Front_picture_modify($menu)
   }
   
   $template->set_prefilter('picture_modify', 'Back2front_picture_modify_prefilter');
-  
-  return $menu;
 }
 
 

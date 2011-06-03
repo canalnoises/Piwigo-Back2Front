@@ -50,4 +50,12 @@ function picture_exists($id)
   else return false;
 }
 
+if (!function_exists('stripslashes_deep'))
+{
+  function stripslashes_deep($value)
+  {
+    return is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
+  }
+}
+
 ?>

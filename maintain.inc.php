@@ -38,6 +38,24 @@ function plugin_install() {
     VALUES ('back2front', '".$versos_cat['id'].",click,none', 'Configuration for Back2Front plugin');");
 }
 
+function plugin_activate()
+{
+  global $conf;
+
+  if (!isset($conf['back2front'])) {
+    pwg_query("INSERT INTO `" . CONFIG_TABLE . "`
+      VALUES ('back2front', '".$versos_cat['id'].",click,none', 'Configuration for Back2Front plugin');");
+  } else {
+    $conf['back2front'] = explode(',', $conf['back2front']);
+    if (!isset($conf['back2front'][3])) {
+      $conf['back2front'][3] = 'top';
+      $conf['back2front'][4] = serialize(array('default'=>null));
+      conf_update_param('back2front', implode (',', $conf['back2front'])); 
+    }
+  }
+}
+
+
 function plugin_uninstall() {
 	global $conf, $prefixeTable;
   

@@ -1,4 +1,5 @@
 {combine_css path=$B2F_PATH|@cat:"template/style.css"}
+{combine_script id="jquery" load="header" path = "themes/default/js/jquery.min.js"}
 
 {footer_script require="jquery"}
 jQuery(document).ready(function () {ldelim}
@@ -15,20 +16,18 @@ jQuery(document).ready(function () {ldelim}
       jQuery('img[alt="{$ALT_IMG}"]').animate({ldelim}
         opacity:0
       }, 400, function() {ldelim}
-        jQuery(this).animate({ldelim}
-          width:'{$VERSO_WIDTH}px',
-          height:'{$VERSO_HEIGHT}px'
-        }, 200, function() {ldelim}
-            jQuery(this).attr('src', '{$VERSO_URL}');
-            jQuery(this).animate({ldelim}
-              opacity:1
-            }, 400);
+        jQuery(this).attr({ldelim}
+          src: '{$VERSO_URL}',
+          style: 'max-width:{$WIDTH_IMG}px;max-height:{$HEIGHT_IMG}px;',
         });
+        jQuery(this).animate({ldelim}
+          opacity:1
+        }, 400);
       });
     {else}
       jQuery('img[alt="{$ALT_IMG}"]').attr({ldelim}
         src: '{$VERSO_URL}',
-        style: 'width:{$VERSO_WIDTH}px;height:{$VERSO_HEIGHT}px;',
+        style: 'max-width:{$WIDTH_IMG}px;max-height:{$HEIGHT_IMG}px;',
       });
     {/if}
     
@@ -41,7 +40,7 @@ jQuery(document).ready(function () {ldelim}
       {/if}
     
       /* B2F link content */
-      jQuery(this).html('<img src="{$B2F_PATH}template/rotate_2.png"/> {'See front'|@translate}');
+      jQuery(this).html('<img src="{$B2F_PATH}template/rotate_2.png"/> {$b2f_see_front}');
       jQuery(this).attr('rel', 'back');
     {/if}
       
@@ -51,19 +50,18 @@ jQuery(document).ready(function () {ldelim}
   }, function() {ldelim}
 {/if} 
 
+      /* picture switch */
     {if $b2f_transition == 'fade'}
       jQuery('img[alt="{$ALT_IMG}"]').animate({ldelim}
         opacity:0
       }, 400, function() {ldelim}
-        jQuery(this).animate({ldelim}
-          width:'{$WIDTH_IMG}px',
-          height:'{$HEIGHT_IMG}px'
-        }, 200, function() {ldelim}
-            jQuery(this).attr('src', '{$SRC_IMG}');
-            jQuery(this).animate({ldelim}
-              opacity:1
-            }, 400);
+        jQuery(this).attr({ldelim}
+          src: '{$SRC_IMG}',
+          style: 'width:{$WIDTH_IMG}px;height:{$HEIGHT_IMG}px;',
         });
+        jQuery(this).animate({ldelim}
+          opacity:1
+        }, 400);
       });
     {else}
       jQuery('img[alt="{$ALT_IMG}"]').attr({ldelim}
@@ -73,13 +71,15 @@ jQuery(document).ready(function () {ldelim}
     {/if}
       
     {if $b2f_switch_mode == 'click'}
+      /* hd link */
       {if isset($high.U_HIGH)}
       jQuery('img[alt="{$ALT_IMG}"]').parent().attr({ldelim}
         href: "javascript:phpWGOpenWindow('{$high.U_HIGH}','{$high.UUID}','scrollbars=yes,toolbar=no,status=no,resizable=yes')"
       });
       {/if}
       
-      jQuery(this).html('<img src="{$B2F_PATH}template/rotate_1.png"/> {'See back'|@translate}');
+      /* B2F link content */
+      jQuery(this).html('<img src="{$B2F_PATH}template/rotate_1.png"/> {$b2f_see_back}');
       jQuery(this).attr('rel', 'front');
     {/if}
       
@@ -93,9 +93,10 @@ jQuery(document).ready(function () {ldelim}
 });
 {/footer_script}
 
-<img src="{$VERSO_URL}" style="display:none;"> {* <!-- force preload the verso --> *}
+<img src="{$VERSO_URL}" style="display:none;"/> {* <!-- force preload the verso --> *}
 
-<a class="reverse" rel="front" name="verso-link" {if $b2f_switch_mode == 'hover'}href="javascript:phpWGOpenWindow('{$VERSO_HD}','{$high.UUID}','scrollbars=yes,toolbar=no,status=no,resizable=yes')"{/if}>
-  <img src="{$B2F_PATH}template/rotate_1.png"/> {'See back'|@translate}
+{if $b2f_position != 'toolbar'}<div>{/if}
+<a class="reverse" rel="front" {if $b2f_position == 'toolbar'}style="border:none !important;"{/if} {if $b2f_switch_mode == 'hover'}href="javascript:phpWGOpenWindow('{$VERSO_HD}','{$high.UUID}','scrollbars=yes,toolbar=no,status=no,resizable=yes')"{/if}>
+  <img src="{$B2F_PATH}template/rotate_1.png"/> {$b2f_see_back}
 </a>
-<br/>
+{if $b2f_position != 'toolbar'}</div>{/if}

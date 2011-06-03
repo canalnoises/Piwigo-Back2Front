@@ -4,11 +4,28 @@ a.reverse {
   padding:3px 5px;
   margin-bottom:10px;
   font-size:15px;
-  font-style:italic;	
-  height:1em;
+  font-style:italic;  
 }
 a.reverse img {
-  margin:0 !important;
   vertical-align:top;
-  border:none !important;
+}
+.lang_help {
+  display:inline-block;
+  width:16px;
+  text-align:center;
+  vertical-align:middle;
+  font-style:italic;
+  font-family:"Georgia",serif;
+  background-color:#999;
+  margin-left:15px;
+  color:#fff;
+  font-size:0.9em;
+  line-height:1.4em;
+  border-radius:7px;
+  -moz-border-radius:7px;
+}
+.lang_help:hover {
+  background-color:#333;
+  border:none;
+  color:#fff;
 }

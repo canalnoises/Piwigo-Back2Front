@@ -25,8 +25,7 @@ if (script_basename() == 'picture')
 
 if (script_basename() == 'admin')
 {
-  add_event_handler('get_admin_plugin_menu_links', 'Back2Front_picture_modify');
-  // add_event_handler('loc_begin_admin_page', 'Back2Front_picture_modify'); /* for Piwigo 2.2.2 */
+  add_event_handler('loc_begin_admin_page', 'Back2Front_picture_modify');
   
 	add_event_handler('get_admin_plugin_menu_links', 'Back2Front_admin_menu');
 	function Back2Front_admin_menu($menu) 
