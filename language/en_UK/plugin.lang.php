@@ -7,7 +7,15 @@ $lang['Modify backside information'] = 'Modify backside information';
 $lang['Switch mode'] = 'Switch mode';
 $lang['Click'] = 'Click';
 $lang['Mouseover'] = 'Mouseover';
+$lang['Transition'] = 'Transition';
 $lang['Fade'] = 'Fade';
+$lang['Link position'] = 'Button position';
+$lang['Top'] = 'Top';
+$lang['Bottom'] = 'Bottom';
+$lang['Toolbar'] = 'Toolbar';
+$lang['Link name'] = 'Button name';
+
+$lang['Seperate the two labels with the | symbol. Leave blank to use default translation.'] = 'Seperate the two labels with the | symbol. Leave blank to use default translation.';
 
 $lang['This picture is a backside...'] = 'This picture is a backside...';
 $lang['...of the picture n°'] = '...of the picture n°';

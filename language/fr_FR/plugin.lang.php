@@ -7,7 +7,15 @@ $lang['Modify backside information'] = 'Modifier les informations du verso';
 $lang['Switch mode'] = 'Interchanger les images au';
 $lang['Click'] = 'Clic';
 $lang['Mouseover'] = 'Survol';
+$lang['Transition'] = 'Transition';
 $lang['Fade'] = 'Fondu';
+$lang['Link position'] = 'Position du bouton';
+$lang['Top'] = 'Haut';
+$lang['Bottom'] = 'Bas';
+$lang['Toolbar'] = 'Barre d\'outils';
+$lang['Link name'] = 'Nom du bouton';
+
+$lang['Seperate the two labels with the | symbol. Leave blank to use default translation.'] = 'Séparez les deux textes par le symbole |. Laissez vide pour utiliser la traduction par défaut.';
 
 $lang['This picture is a backside...'] = 'Cette image est le verso...';
 $lang['...of the picture n°'] = '...de l\'image n°';
