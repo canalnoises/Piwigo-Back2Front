@@ -1,0 +1,1 @@
+Aggiunge un link sotto la foto per visualizzare un'alternativa alla foto. Per esempio, si può mostrare l'atro lato di una cartolina.
