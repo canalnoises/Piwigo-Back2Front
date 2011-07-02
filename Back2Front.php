@@ -151,7 +151,13 @@ function Back2Front_picture_modify()
       /* verso don't exists */
       if (!picture_exists($_POST['b2f_front_id']))
       {
-        array_push($page['errors'], l10n_args(get_l10n_args('Unknown id %d for frontside picture', $_POST['b2f_front_id'])));
+        array_push(
+          $page['errors'], 
+          sprintf(
+            l10n('Unknown id %d for frontside picture'), 
+            $_POST['b2f_front_id']
+            )
+          );
       }
       /* verso same as recto  */
       else if ($_POST['b2f_front_id'] == $_GET['image_id'])
@@ -163,18 +169,27 @@ function Back2Front_picture_modify()
       {
           $recto_current_verso['id'] = $all_recto_verso[$_POST['b2f_front_id']];
           $recto_current_verso['link'] = get_root_url().'admin.php?page=picture_modify&amp;image_id='.$recto_current_verso['id'];
-          array_push($page['errors'], 
-            l10n_args(get_l10n_args('The picture n°%d has already a backside : %s', 
-              array($_POST['b2f_front_id'], '<a href="'.$recto_current_verso['link'].'">'.$recto_current_verso['id'].'</a>')
-            ))
-          );
+          array_push(
+            $page['errors'], 
+            sprintf(
+              l10n('The picture n°%d has already a backside : %s'), 
+              $_POST['b2f_front_id'], 
+              '<a href="'.$recto_current_verso['link'].'">'.$recto_current_verso['id'].'</a>'
+              )
+            );
       }
       /* recto is already a verso */
       else if (in_array($_POST['b2f_front_id'], array_values($all_recto_verso)))
       {
           $recto_is_verso['id'] = $_POST['b2f_front_id'];
           $recto_is_verso['link'] = get_root_url().'admin.php?page=picture_modify&amp;image_id='.$recto_is_verso['id'];
-          array_push($page['errors'], l10n_args(get_l10n_args('The picture n°%s is already a backside', '<a href="'.$recto_is_verso['link'].'">'.$recto_is_verso['id'].'</a>')));
+          array_push(
+            $page['errors'], 
+            sprintf(
+              l10n('The picture n°%s is already a backside'), 
+              '<a href="'.$recto_is_verso['link'].'">'.$recto_is_verso['id'].'</a>'
+              )
+            );
       }
       /* everything is fine */
       else
