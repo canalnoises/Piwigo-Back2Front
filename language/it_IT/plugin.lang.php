@@ -21,7 +21,7 @@ $lang['This picture is a backside...'] = 'Questa foto è il retro...';
 $lang['...of the picture n°'] = '... della foto n°';
 $lang['Backside management'] = 'Gestione delle fronte-retro';
 $lang['Move backside to private album'] = 'Spostare il retro verso un\'album privato';
-$lang['This picture has a backside : '] = 'Questa foto a un retro : ';
+$lang['This picture has a backside :'] = 'Questa foto a un retro :';
 
 $lang['Backside and frontside can\'t be the same picture'] = 'Retro e fronte non possono essere la stessa foto';
 $lang['The picture n°%d has already a backside : %s'] = 'La foto n°%d ha già un retro';

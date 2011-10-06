@@ -7,7 +7,7 @@ include_once(B2F_PATH.'functions.inc.php');
  * Add verso link on picture page
  */
 function Back2Front_picture_content($content, $image)
- {
+{
   global $template, $user, $conf;
 
   /* search for a verso picture */
@@ -32,7 +32,10 @@ function Back2Front_picture_content($content, $image)
     $conf['back2front'] = explode(',',$conf['back2front']);
     
     /* websize picture */
-    $template->assign('VERSO_URL', $verso['path']);
+    $template->assign(array(
+      'B2F_PATH' => B2F_PATH,
+      'VERSO_URL' => $verso['path'],
+      ));
     
     /* admin link */
     if (is_admin())
@@ -78,9 +81,8 @@ function Back2Front_picture_content($content, $image)
     }
 
     /* template & output */
-    $template->set_filenames(array('B2F_picture_content' => dirname(__FILE__).'/template/picture_content.tpl') );    
+    $template->set_filename('B2F_picture_content', dirname(__FILE__).'/template/picture_content.tpl');    
     $template->assign(array(
-      'B2F_PATH' => B2F_PATH,
       'b2f_switch_mode' => $conf['back2front'][1],
       'b2f_transition' => $conf['back2front'][2],
       'b2f_position' => $conf['back2front'][3],
@@ -91,7 +93,7 @@ function Back2Front_picture_content($content, $image)
     switch ($conf['back2front'][3])
     {
       case 'toolbar':
-        $template->set_prefilter('picture', 'Back2Front_toolbar_prefilter');  
+        $template->concat('PLUGIN_PICTURE_ACTIONS', $template->parse('B2F_picture_content', true));
         break;
       case 'top':
         return $template->parse('B2F_picture_content', true)."\n".$content;
@@ -103,13 +105,6 @@ function Back2Front_picture_content($content, $image)
   }
   
   return $content;
-}
-
-function Back2Front_toolbar_prefilter($content, &$smarty)
-{
-  $search = '{/if}{/strip}{*caddie management END*}';
-  $replacement = $search."\n".file_get_contents(B2F_PATH.'template/picture_content.tpl');
-  return str_replace($search, $replacement, $content);
 }
 
 
@@ -319,6 +314,42 @@ function Back2front_picture_modify_prefilter($content, &$smarty)
   $search = '<form id="associations" method="post" action="{$F_ACTION}#associations">';
   $replacement = file_get_contents(B2F_PATH.'template/picture_modify.tpl')."\n".$search;
   return str_replace($search, $replacement, $content);
+}
+
+
+/*
+ * Add mark on thumbnails list
+ */
+function Back2Front_thumbnails($tpl_thumbnails_var, $pictures)
+{
+  global $conf;
+  
+  $conf['back2front'] = explode(',',$conf['back2front']);
+  if (!$conf['back2front'][5]) return $tpl_thumbnails_var;
+  
+  $ids = array();
+  foreach ($pictures as $row)
+  {
+    array_push($ids, $row['id']);
+  }
+    
+  /* has the pictures a verso ? */
+  $query = "SELECT image_id, verso_id
+    FROM ".B2F_TABLE."
+    WHERE image_id IN(".implode(',', $ids).");";
+  $result = hash_from_query($query, 'image_id');
+  
+  $ids = array_keys($result);
+  
+  foreach($tpl_thumbnails_var as &$tpl_var)
+  {
+    if (in_array($tpl_var['ID'], $ids))
+    {
+      $tpl_var['NAME'].= ' <img class="has_verso" src="'.B2F_PATH.'template/rotate_1.png" title="'.l10n('This picture has a backside :').'"/>';
+    }
+  }
+  
+  return $tpl_thumbnails_var;
 }
 
 ?>

@@ -14,6 +14,7 @@ $lang['Top'] = 'Top';
 $lang['Bottom'] = 'Bottom';
 $lang['Toolbar'] = 'Toolbar';
 $lang['Link name'] = 'Button name';
+$lang['Display a mark on thumbnails list'] = 'Display a mark on thumbnails list';
 
 $lang['Seperate the two labels with the | symbol. Leave blank to use default translation.'] = 'Seperate the two labels with the | symbol. Leave blank to use default translation.';
 
@@ -21,7 +22,7 @@ $lang['This picture is a backside...'] = 'This picture is a backside...';
 $lang['...of the picture n°'] = '...of the picture n°';
 $lang['Backside management'] = 'Backside management';
 $lang['Move backside to private album'] = 'Move backside to private album';
-$lang['This picture has a backside : '] = 'This picture has a backside : ';
+$lang['This picture has a backside :'] = 'This picture has a backside : ';
 
 $lang['Backside and frontside can\'t be the same picture'] = 'Backside and frontside can\'t be the same picture';
 $lang['The picture n°%d has already a backside : %s'] = 'The picture n°%d has already a backside : %s';

@@ -3,17 +3,18 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
 include_once(PHPWG_PLUGINS_PATH.'back2front/functions.inc.php');
 
-function plugin_install() {
-	global $prefixeTable;
+function plugin_install() 
+{
+  global $prefixeTable;
 
-  /* create table for recto/veros pairs | stores original verso categories */
-	pwg_query("CREATE TABLE IF NOT EXISTS `" . $prefixeTable . "image_verso` (
+  /* create table for recto/verso pairs | stores original verso categories */
+  pwg_query("CREATE TABLE IF NOT EXISTS `" . $prefixeTable . "image_verso` (
     `image_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
     `verso_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
     `categories` varchar(128) NULL,
     PRIMARY KEY (`image_id`),
     UNIQUE KEY (`verso_id`)
-	) DEFAULT CHARSET=utf8;");
+  ) DEFAULT CHARSET=utf8;");
   
   /* create a virtual category to store versos */
   $versos_cat = create_virtual_category('Back2Front private album');
@@ -35,29 +36,39 @@ function plugin_install() {
     
   /* config parameter */
   pwg_query("INSERT INTO `" . CONFIG_TABLE . "`
-    VALUES ('back2front', '".$versos_cat['id'].",click,none', 'Configuration for Back2Front plugin');");
+    VALUES ('back2front', '".$versos_cat['id'].",click,none,top,".serialize(array('default'=>null)).",1', 'Configuration for Back2Front plugin');");
 }
 
 function plugin_activate()
 {
   global $conf;
 
-  if (!isset($conf['back2front'])) {
+  if (!isset($conf['back2front'])) 
+  {
     pwg_query("INSERT INTO `" . CONFIG_TABLE . "`
-      VALUES ('back2front', '".$versos_cat['id'].",click,none', 'Configuration for Back2Front plugin');");
-  } else {
+      VALUES ('back2front', '".$versos_cat['id'].",click,none,top,".serialize(array('default'=>null)).",1', 'Configuration for Back2Front plugin');");
+  } 
+  else 
+  {
     $conf['back2front'] = explode(',', $conf['back2front']);
-    if (!isset($conf['back2front'][3])) {
+    
+    if (!isset($conf['back2front'][3])) 
+    {
       $conf['back2front'][3] = 'top';
       $conf['back2front'][4] = serialize(array('default'=>null));
-      conf_update_param('back2front', implode (',', $conf['back2front'])); 
     }
+    if (!isset($conf['back2front'][5]))
+    {
+      $conf['back2front'][5] = true;
+    }
+    
+    conf_update_param('back2front', implode (',', $conf['back2front'])); 
   }
 }
 
 
 function plugin_uninstall() {
-	global $conf, $prefixeTable;
+  global $conf, $prefixeTable;
   
   $conf['back2front'] = explode(',',$conf['back2front']);
   

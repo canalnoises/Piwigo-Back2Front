@@ -23,18 +23,23 @@ if (script_basename() == 'picture')
   add_event_handler('render_element_content', 'Back2Front_picture_content', 99, 2);
 }
 
+if (script_basename() == 'index')
+{
+  add_event_handler('loc_end_index_thumbnails', 'Back2Front_thumbnails', 99, 2);
+}
+
 if (script_basename() == 'admin')
 {
   add_event_handler('loc_begin_admin_page', 'Back2Front_picture_modify');
   
-	add_event_handler('get_admin_plugin_menu_links', 'Back2Front_admin_menu');
-	function Back2Front_admin_menu($menu) 
-	{
-		array_push($menu, array(
-			'NAME' => 'Back2Front',
-			'URL' => get_root_url().'admin.php?page=plugin-' . B2F_DIR));
-		return $menu;
-	}
+  add_event_handler('get_admin_plugin_menu_links', 'Back2Front_admin_menu');
+  function Back2Front_admin_menu($menu) 
+  {
+    array_push($menu, array(
+      'NAME' => 'Back2Front',
+      'URL' => get_root_url().'admin.php?page=plugin-' . B2F_DIR));
+    return $menu;
+  }
 }
 
 ?>

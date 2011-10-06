@@ -96,7 +96,7 @@ jQuery(document).ready(function () {ldelim}
 <img src="{$VERSO_URL}" style="display:none;"/> {* <!-- force preload the verso --> *}
 
 {if $b2f_position != 'toolbar'}<div>{/if}
-<a class="reverse" rel="front" {if $b2f_position == 'toolbar'}style="border:none !important;"{/if} 
+<a class="reverse" rel="front" class="pwg-state-default pwg-button" title="{$b2f_see_back}" {if $b2f_position == 'toolbar'}style="border:none !important;"{/if} 
   {if $b2f_switch_mode == 'hover' and isset($VERSO_HD)}href="javascript:phpWGOpenWindow('{$VERSO_HD}','{$high.UUID}','scrollbars=yes,toolbar=no,status=no,resizable=yes')"{/if}>
   <img src="{$B2F_PATH}template/rotate_1.png"/> {$b2f_see_back}
 </a>
