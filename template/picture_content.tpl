@@ -13,7 +13,7 @@ jQuery(document).ready(function () {ldelim}
 
       /* picture switch */
     {if $b2f_transition == 'fade'}
-      jQuery('img[alt="{$ALT_IMG}"]').animate({ldelim}
+      jQuery('img#theMainImage').animate({ldelim}
         opacity:0
       }, 400, function() {ldelim}
         jQuery(this).attr({ldelim}
@@ -25,7 +25,7 @@ jQuery(document).ready(function () {ldelim}
         }, 400);
       });
     {else}
-      jQuery('img[alt="{$ALT_IMG}"]').attr({ldelim}
+      jQuery('img#theMainImage').attr({ldelim}
         src: '{$VERSO_URL}',
         style: 'max-width:{$WIDTH_IMG}px;max-height:{$HEIGHT_IMG}px;',
       });
@@ -34,7 +34,7 @@ jQuery(document).ready(function () {ldelim}
     {if $b2f_switch_mode == 'click'}
       /* hd link */
       {if isset($VERSO_HD)}
-      jQuery('img[alt="{$ALT_IMG}"]').parent().attr({ldelim}
+      jQuery('img#theMainImage').parent('a').attr({ldelim}
         href: "javascript:phpWGOpenWindow('{$VERSO_HD}','{$high.UUID}','scrollbars=yes,toolbar=no,status=no,resizable=yes')"
       });
       {/if}
@@ -52,7 +52,7 @@ jQuery(document).ready(function () {ldelim}
 
       /* picture switch */
     {if $b2f_transition == 'fade'}
-      jQuery('img[alt="{$ALT_IMG}"]').animate({ldelim}
+      jQuery('img#theMainImage').animate({ldelim}
         opacity:0
       }, 400, function() {ldelim}
         jQuery(this).attr({ldelim}
@@ -64,7 +64,7 @@ jQuery(document).ready(function () {ldelim}
         }, 400);
       });
     {else}
-      jQuery('img[alt="{$ALT_IMG}"]').attr({ldelim}
+      jQuery('img#theMainImage').attr({ldelim}
         src: '{$SRC_IMG}',
         style: 'width:{$WIDTH_IMG}px;height:{$HEIGHT_IMG}px;',
       });
@@ -73,7 +73,7 @@ jQuery(document).ready(function () {ldelim}
     {if $b2f_switch_mode == 'click'}
       /* hd link */
       {if isset($high.U_HIGH)}
-      jQuery('img[alt="{$ALT_IMG}"]').parent().attr({ldelim}
+      jQuery('img#theMainImage').parent('a').attr({ldelim}
         href: "javascript:phpWGOpenWindow('{$high.U_HIGH}','{$high.UUID}','scrollbars=yes,toolbar=no,status=no,resizable=yes')"
       });
       {/if}
