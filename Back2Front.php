@@ -311,7 +311,7 @@ function Back2Front_picture_modify()
 
 function Back2front_picture_modify_prefilter($content, &$smarty)
 {
-  $search = '<form id="associations" method="post" action="{$F_ACTION}#associations">';
+  $search = '<form id="associations"';
   $replacement = file_get_contents(B2F_PATH.'template/picture_modify.tpl')."\n".$search;
   return str_replace($search, $replacement, $content);
 }
