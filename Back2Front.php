@@ -227,7 +227,7 @@ function Back2Front_picture_modify()
         // insert or update verso associations
         pwg_query("INSERT INTO ".B2F_TABLE."
           VALUES(".$_POST['b2f_front_id'].", ".$_GET['image_id'].", '".$verso_categories."')
-          ON DUPLICATE KEY UPDATE image_id = ".$_POST['b2f_front_id'].", categories = ".$verso_categories.";");
+          ON DUPLICATE KEY UPDATE image_id = ".$_POST['b2f_front_id'].", categories = '".$verso_categories."';");
       
         $template->assign(array(
           'B2F_IS_VERSO' => 'checked="checked"',

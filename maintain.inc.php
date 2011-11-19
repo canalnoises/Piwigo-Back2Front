@@ -1,7 +1,7 @@
 <?php
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
-include_once(PHPWG_PLUGINS_PATH.'back2front/functions.inc.php');
+include_once(PHPWG_PLUGINS_PATH.'Back2Front/functions.inc.php');
 
 function plugin_install() 
 {
@@ -43,27 +43,20 @@ function plugin_activate()
 {
   global $conf;
 
-  if (!isset($conf['back2front'])) 
+
+  $conf['back2front'] = explode(',', $conf['back2front']);
+  
+  if (!isset($conf['back2front'][3])) 
   {
-    pwg_query("INSERT INTO `" . CONFIG_TABLE . "`
-      VALUES ('back2front', '".$versos_cat['id'].",click,none,top,".serialize(array('default'=>null)).",1', 'Configuration for Back2Front plugin');");
-  } 
-  else 
-  {
-    $conf['back2front'] = explode(',', $conf['back2front']);
-    
-    if (!isset($conf['back2front'][3])) 
-    {
-      $conf['back2front'][3] = 'top';
-      $conf['back2front'][4] = serialize(array('default'=>null));
-    }
-    if (!isset($conf['back2front'][5]))
-    {
-      $conf['back2front'][5] = true;
-    }
-    
-    conf_update_param('back2front', implode (',', $conf['back2front'])); 
+    $conf['back2front'][3] = 'top';
+    $conf['back2front'][4] = serialize(array('default'=>null));
   }
+  if (!isset($conf['back2front'][5]))
+  {
+    $conf['back2front'][5] = true;
+  }
+  
+  conf_update_param('back2front', implode (',', $conf['back2front'])); 
 }
 
 
