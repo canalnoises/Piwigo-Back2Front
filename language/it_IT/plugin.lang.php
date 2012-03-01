@@ -21,4 +21,12 @@ $lang['Unknown id %d for frontside picture'] = 'ID %d sconosciuto per la foto fr
 $lang['This picture is no longer a backside'] = 'Quest foto non è più un retro';
 
 $lang['Display a mark on thumbnails list'] = 'Mostra un segno sulla lista delle anteprime';
+$lang['...of the picture n°'] = '...dell\'immagine n°';
+$lang['Backside management'] = 'Gestione retro';
+$lang['Bottom'] = 'Basso';
+$lang['Link name'] = 'Nome pulsante';
+$lang['Seperate the two labels with the | symbol. Leave blank to use default translation.'] = 'Separare le due etichette con il simbolo |. Lasciare bianco per usare la traduzione di default';
+$lang['This picture is a backside...'] = 'Questa immagine è il retro...';
+$lang['Toolbar'] = 'Toolbar';
+$lang['Top'] = 'Alto';
 ?>
