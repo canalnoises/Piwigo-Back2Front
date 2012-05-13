@@ -326,6 +326,7 @@ function Back2Front_thumbnails($tpl_thumbnails_var, $pictures)
   
   $conf['back2front'] = explode(',',$conf['back2front']);
   if (!$conf['back2front'][5]) return $tpl_thumbnails_var;
+  if (empty($pictures)) return $tpl_thumbnails_var;
   
   $ids = array();
   foreach ($pictures as $row)
