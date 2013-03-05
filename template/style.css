@@ -1,14 +1,21 @@
 a.reverse {
-  display:inline-block;
+  display:none;
   border:1px solid #666 !important;
   padding:5px 5px;
   margin-bottom:10px;
   font-size:15px;
-  font-style:italic;  
+  font-style:italic;
+  cursor:pointer;
 }
 a.reverse img {
   vertical-align:top;
 }
+
+#theVersoImage {
+  display:none;
+}
+
+
 .lang_help {
   display:inline-block;
   width:16px;

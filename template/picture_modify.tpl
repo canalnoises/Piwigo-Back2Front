@@ -16,7 +16,7 @@ $(document).ready(function () {ldelim}
     <table>
       <tr>
         <td><b>{'This picture has a backside :'|@translate}</b></td>
-        <td><a href="{$B2F_VERSO_URL}">{$B2F_VERSO_ID}</a></td>
+        <td><a href="{$B2F_VERSO_URL}">#{$B2F_VERSO_ID}</a></td>
       </tr>
     </table>
   {else}

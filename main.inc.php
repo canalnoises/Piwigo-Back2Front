@@ -20,12 +20,12 @@ include_once(B2F_PATH . 'Back2Front.php');
 
 if (script_basename() == 'picture')
 {
-  add_event_handler('render_element_content', 'Back2Front_picture_content', 99, 2);
+  add_event_handler('render_element_content', 'Back2Front_picture_content', EVENT_HANDLER_PRIORITY_NEUTRAL+20, 2);
 }
 
 if (script_basename() == 'index')
 {
-  add_event_handler('loc_end_index_thumbnails', 'Back2Front_thumbnails', 99, 2);
+  add_event_handler('loc_end_index_thumbnails', 'Back2Front_thumbnails');
 }
 
 if (script_basename() == 'admin')

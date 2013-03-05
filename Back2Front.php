@@ -6,23 +6,17 @@ include_once(B2F_PATH.'functions.inc.php');
 /*
  * Add verso link on picture page
  */
-function Back2Front_picture_content($content, $image)
+function Back2Front_picture_content($content, $element_info)
 {
   global $template, $user, $conf;
 
   /* search for a verso picture */
   $query = "
-    SELECT 
-      i.id, 
-      i.path,
-      i.has_high,
-      i.width,
-      i.height
+    SELECT i.*
     FROM ".IMAGES_TABLE." as i
       INNER JOIN ".B2F_TABLE." as v
       ON i.id = v.verso_id
-    WHERE
-      v.image_id = ".$image['id']."
+      AND v.image_id = ".$element_info['id']."
   ;";
   $result = pwg_query($query);
 
@@ -30,25 +24,25 @@ function Back2Front_picture_content($content, $image)
   {
     $verso = pwg_db_fetch_assoc($result);
     $conf['back2front'] = explode(',',$conf['back2front']);
+    $deriv_type = pwg_get_session_var('picture_deriv', $conf['derivative_default_size']);
+    
+    $verso['src_image'] = new SrcImage($verso);
+    $verso['derivatives'] = DerivativeImage::get_all($verso['src_image']);
+    $verso['element_path'] = get_element_path($verso);
+    $verso['selected_derivative'] = $verso['derivatives'][$deriv_type];
     
     /* websize picture */
     $template->assign(array(
       'B2F_PATH' => B2F_PATH,
-      'VERSO_URL' => $verso['path'],
+      'verso' => $verso,
       ));
     
     /* admin link */
     if (is_admin())
     {
-      $template->assign('VERSO_U_ADMIN', get_root_url().'admin.php?page=picture_modify&amp;image_id='.$verso['id']);
+      $template->assign('VERSO_U_ADMIN', get_root_url().'admin.php?page=photo-'.$verso['id']);
       $template->set_filename('B2F_admin_button', dirname(__FILE__).'/template/admin_button.tpl');
       $template->concat('PLUGIN_PICTURE_ACTIONS', $template->parse('B2F_admin_button', true));
-    }
-
-    /* high picture */
-    if ($verso['has_high'])
-    {
-      $template->assign('VERSO_HD', get_high_url($verso));
     }
     
     /* link name */
@@ -79,6 +73,12 @@ function Back2Front_picture_content($content, $image)
     {
       $conf['back2front'][4] = array(l10n('See back'), l10n('See front'));
     }
+    
+    if ($conf['back2front'][2] == 'fade' and $conf['back2front'][3] ==  'bottom')
+    {
+      $conf['back2front'][3] = 'top';
+    }
+    
 
     /* template & output */
     $template->set_filename('B2F_picture_content', dirname(__FILE__).'/template/picture_content.tpl');    
@@ -115,7 +115,10 @@ function Back2Front_picture_modify()
 {
   global $page, $template, $conf;
   
-  if ($page['page'] != 'picture_modify') return;
+  if ($page['page'] != 'photo') return;
+  if (isset($_GET['tab']) && $_GET['tab']!='properties') return;
+  
+  
   $conf['back2front'] = explode(',',$conf['back2front']);
   
 /* SAVE VALUES */
@@ -163,7 +166,7 @@ function Back2Front_picture_modify()
       else if (in_array($_POST['b2f_front_id'], array_keys($all_recto_verso)) AND $all_recto_verso[$_POST['b2f_front_id']] != $_GET['image_id'])
       {
           $recto_current_verso['id'] = $all_recto_verso[$_POST['b2f_front_id']];
-          $recto_current_verso['link'] = get_root_url().'admin.php?page=picture_modify&amp;image_id='.$recto_current_verso['id'];
+          $recto_current_verso['link'] = get_root_url().'admin.php?page=photo-'.$recto_current_verso['id'];
           array_push(
             $page['errors'], 
             sprintf(
@@ -235,7 +238,7 @@ function Back2Front_picture_modify()
         ));
         
         $verso['id'] = $_POST['b2f_front_id'];
-        $verso['link'] = get_root_url().'admin.php?page=picture_modify&amp;image_id='.$verso['id'];
+        $verso['link'] = get_root_url().'admin.php?page=photo-'.$verso['id'];
         array_push($page['infos'], l10n_args(get_l10n_args('This picture is now the backside of the picture n°%s', '<a href="'.$verso['link'].'">'.$verso['id'].'</a>')));
       }
     }
@@ -299,7 +302,7 @@ function Back2Front_picture_modify()
 
         $template->assign(array(
           'B2F_VERSO_ID' => $item['verso_id'],
-          'B2F_VERSO_URL' => get_root_url().'admin.php?page=picture_modify&amp;image_id='.$item['verso_id'],
+          'B2F_VERSO_URL' => get_root_url().'admin.php?page=photo-'.$item['verso_id'],
         ));
       }
     }
@@ -311,8 +314,8 @@ function Back2Front_picture_modify()
 
 function Back2front_picture_modify_prefilter($content, &$smarty)
 {
-  $search = '<form id="associations"';
-  $replacement = file_get_contents(B2F_PATH.'template/picture_modify.tpl')."\n".$search;
+  $search = '</form>';
+  $replacement = $search."\n\n".file_get_contents(B2F_PATH.'template/picture_modify.tpl');
   return str_replace($search, $replacement, $content);
 }
 
@@ -320,33 +323,27 @@ function Back2front_picture_modify_prefilter($content, &$smarty)
 /*
  * Add mark on thumbnails list
  */
-function Back2Front_thumbnails($tpl_thumbnails_var, $pictures)
+function Back2Front_thumbnails($tpl_thumbnails_var)
 {
-  global $conf;
+  global $conf, $selection;
   
   $conf['back2front'] = explode(',',$conf['back2front']);
   if (!$conf['back2front'][5]) return $tpl_thumbnails_var;
-  if (empty($pictures)) return $tpl_thumbnails_var;
-  
-  $ids = array();
-  foreach ($pictures as $row)
-  {
-    array_push($ids, $row['id']);
-  }
+  if (empty($tpl_thumbnails_var)) return $tpl_thumbnails_var;
     
   /* has the pictures a verso ? */
-  $query = "SELECT image_id, verso_id
+  $query = "SELECT image_id
     FROM ".B2F_TABLE."
-    WHERE image_id IN(".implode(',', $ids).");";
-  $result = hash_from_query($query, 'image_id');
+    WHERE image_id IN(".implode(',', $selection).");";
+  $ids = array_from_query($query, 'image_id');
   
-  $ids = array_keys($result);
+  $root_path = get_absolute_root_url();
   
   foreach($tpl_thumbnails_var as &$tpl_var)
   {
-    if (in_array($tpl_var['ID'], $ids))
+    if (in_array($tpl_var['id'], $ids))
     {
-      $tpl_var['NAME'].= ' <img class="has_verso" src="'.B2F_PATH.'template/rotate_1.png" title="'.l10n('This picture has a backside :').'"/>';
+      $tpl_var['NAME'].= ' <img class="has_verso" src="'.$root_path.B2F_PATH.'template/rotate_1.png" title="'.l10n('This picture has a backside :').'"/>';
     }
   }
   
