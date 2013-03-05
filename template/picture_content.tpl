@@ -1,6 +1,6 @@
 {combine_css path=$B2F_PATH|@cat:"template/style.css"}
 
-{if !$verso.selected_derivative->is_cached() && $current.selected_derivative->is_cached}
+{if !$verso.selected_derivative->is_cached() && $current.selected_derivative->is_cached()}
 {combine_script id='jquery.ajaxmanager' path='themes/default/js/plugins/jquery.ajaxmanager.js' load='footer'}
 {combine_script id='thumbnails.loader' path='themes/default/js/thumbnails.loader.js' require='jquery.ajaxmanager' load='footer'}
 {footer_script}var error_icon = "{$ROOT_URL}{$themeconf.icon_dir}/errors_small.png"{/footer_script}
@@ -28,19 +28,18 @@ jQuery("img#theVersoImage").insertAfter(jQuery("img#theMainImage"));
   jQuery(".reverse").hover(function() {ldelim}
 {/if}
 
-      $("img#theVersoImage").hide();
-      
     {if $b2f_transition == "fade"}
-      $("img#theMainImage").fadeOut(400, function() {ldelim}
-        $("img#theVersoImage").fadeIn(400);
+      jQuery("img#theVersoImage").hide();
+      jQuery("img#theMainImage").fadeOut(400, function() {ldelim}
+        jQuery("img#theVersoImage").fadeIn(400);
       });
     {else}
-      $("img#theMainImage").hide();
-      $("img#theVersoImage").show();
+      jQuery("img#theMainImage").hide();
+      jQuery("img#theVersoImage").show();
     {/if}
     
-      $(this).data("what", "back");
-      $(this).html('<img src="{$ROOT_URL}{$B2F_PATH}template/rotate_2.png"/> {$b2f_see_front}');
+      jQuery(this).data("what", "back");
+      jQuery(this).html('<img src="{$ROOT_URL}{$B2F_PATH}template/rotate_2.png"/> {$b2f_see_front}');
 
 {if $b2f_switch_mode == "click"}
     } else if (jQuery(this).data("what") == "back") {ldelim}
@@ -48,19 +47,18 @@ jQuery("img#theVersoImage").insertAfter(jQuery("img#theMainImage"));
   }, function() {ldelim}
 {/if} 
     
-      $("img#theMainImage").hide();
-    
     {if $b2f_transition == "fade"}
-      $("img#theVersoImage").fadeOut(400, function() {ldelim}
-        $("img#theMainImage").fadeIn(400);
+      jQuery("img#theMainImage").hide();
+      jQuery("img#theVersoImage").fadeOut(400, function() {ldelim}
+        jQuery("img#theMainImage").fadeIn(400);
       });
     {else}
-      $("img#theVersoImage").hide();
-      $("img#theMainImage").show();
+      jQuery("img#theVersoImage").hide();
+      jQuery("img#theMainImage").show();
     {/if}
     
-      $(this).data("what", "front");
-      $(this).html('<img src="{$ROOT_URL}{$B2F_PATH}template/rotate_1.png"/> {$b2f_see_back}');
+      jQuery(this).data("what", "front");
+      jQuery(this).html('<img src="{$ROOT_URL}{$B2F_PATH}template/rotate_1.png"/> {$b2f_see_back}');
 
 {if $b2f_switch_mode == "click"}
     }

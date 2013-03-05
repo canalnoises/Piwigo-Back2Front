@@ -9,6 +9,7 @@ a.reverse {
 }
 a.reverse img {
   vertical-align:top;
+  border:none !important;
 }
 
 #theVersoImage {

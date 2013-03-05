@@ -15,8 +15,14 @@ define('B2F_DIR', basename(dirname(__FILE__)));
 define('B2F_PATH', PHPWG_PLUGINS_PATH . B2F_DIR . '/');
 define('B2F_TABLE', $prefixeTable . 'image_verso');
 
-load_language('plugin.lang', B2F_PATH);
 include_once(B2F_PATH . 'Back2Front.php');
+
+add_event_handler('init', 'Back2Front_init');
+
+function Back2Front_init()
+{
+  load_language('plugin.lang', B2F_PATH);
+}
 
 if (script_basename() == 'picture')
 {
