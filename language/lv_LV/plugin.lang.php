@@ -30,4 +30,5 @@ $lang['This picture is now the backside of the picture n°%s'] = 'Šis attēls t
 $lang['Unknown id %d for frontside picture'] = 'Unknown id %d for frontside picture';
 $lang['This picture is no longer a backside'] = '’Šis attēls vairs nav aizmugure';
 
+$lang['Display a mark on thumbnails list'] = 'Rādīt atzīmi uz sīkbilžu saraksta';
 ?>
