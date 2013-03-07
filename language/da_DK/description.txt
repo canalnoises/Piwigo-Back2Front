@@ -1,0 +1,1 @@
+Tilføj et link på billeders side for at vise en alternative udgave af dem (fx til brug på postkort).
