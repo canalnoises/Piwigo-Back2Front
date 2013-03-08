@@ -1,0 +1,1 @@
+Adicionar um link na página da foto para mostrar uma versão alternativa do pic (para cartões postais, por exemplo)
