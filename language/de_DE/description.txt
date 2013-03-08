@@ -1,0 +1,1 @@
+Füge einen Link auf der Bilder-Seite hinzu um eine Alternativ-Version des Bildes zu zeigen (zum Beispiel für Postkarten)
