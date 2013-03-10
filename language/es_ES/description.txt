@@ -1,0 +1,1 @@
+Añadir un enlace en la página de dibujo para mostrar una versión alternativa de la foto (para las postales, por ejemplo)
