@@ -1,0 +1,1 @@
+Dodaje odnośnik na stronie z obrazem do pokazania alternatywnej wersji obrazu (np. dla kartek pocztowych).
