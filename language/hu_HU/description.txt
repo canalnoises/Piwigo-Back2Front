@@ -1,0 +1,1 @@
+Link hozzáadása a kép oldalához amellyel egy alternatív verziója tekinthető meg a képnek (például képeslapok hátulja)
