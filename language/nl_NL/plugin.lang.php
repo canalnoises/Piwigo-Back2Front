@@ -38,4 +38,12 @@ $lang['The picture n°%d has already a backside : %s'] = 'Foto nr. %d heeft al e
 $lang['The picture n°%s is already a backside'] = 'Foto nr. %s is al een achterkant';
 $lang['This picture has a backside :'] = 'Deze foto heeft een achterkant:';
 $lang['This picture is a backside...'] = 'Deze foto is een achterkant....';
+$lang['Display a mark on thumbnails list'] = 'Toon een markering op de miniaturenlijst';
+$lang['Seperate the two labels with the | symbol. Leave blank to use default translation.'] = 'Scheid de twee labels met het | symboo. Laat leeg om standaard vertaling te gebruiken';
+$lang['This picture is now the backside of the picture n°%s'] = 'Dit plaatje is nu de achterzijde van plaatje n°%s';
+$lang['Toolbar'] = 'Knoppenbalk';
+$lang['Transition'] = 'Overgang';
+$lang['Unknown id %d for frontside picture'] = 'Onbekend ID %d voor het voorzijde beeld';
+$lang['Mouseover'] = 'Muis-over';
+$lang['Switch mode'] = 'Schakel modus';
 ?>
