@@ -46,4 +46,5 @@ $lang['The picture n°%d has already a backside : %s'] = 'Billede nummer %d har 
 $lang['The picture n°%s is already a backside'] = 'Billede nummer %s er allerede en bagside';
 $lang['This picture has a backside :'] = 'Billedet har en bagside:';
 $lang['This picture is a backside...'] = 'Dette billede er en bagside...';
+$lang['Hide backside from albums'] = 'Skjul albummers bagside';
 ?>
