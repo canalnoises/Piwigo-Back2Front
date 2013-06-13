@@ -21,7 +21,7 @@ $lang['Seperate the two labels with the | symbol. Leave blank to use default tra
 $lang['This picture is a backside...'] = 'This picture is a backside...';
 $lang['...of the picture n°'] = '...of the picture n°';
 $lang['Backside management'] = 'Backside management';
-$lang['Move backside to private album'] = 'Move backside to private album';
+$lang['Hide backside from albums'] = 'Hide backside from albums';
 $lang['This picture has a backside :'] = 'This picture has a backside: ';
 
 $lang['Backside and frontside can\'t be the same picture'] = 'Backside and frontside can\'t be the same picture';

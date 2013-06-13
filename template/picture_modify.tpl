@@ -32,7 +32,7 @@ $(document).ready(function () {ldelim}
       </tr>
       
       <tr class="frontside_param" {if !isset($B2F_IS_VERSO)}style="display:none;"{/if}>
-        <td><b>{'Move backside to private album'|@translate}</b></td>
+        <td><b>{'Hide backside from albums'|@translate}</b></td>
         <td><input type="checkbox" name="b2f_move_verso" {$B2F_MOVE_VERSO}></td>
       </tr>
     </table>

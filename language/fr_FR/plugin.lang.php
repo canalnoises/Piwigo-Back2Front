@@ -21,7 +21,7 @@ $lang['Seperate the two labels with the | symbol. Leave blank to use default tra
 $lang['This picture is a backside...'] = 'Cette image est le verso...';
 $lang['...of the picture n°'] = '...de l\'image n°';
 $lang['Backside management'] = 'Gestion des recto-verso';
-$lang['Move backside to private album'] = 'Déplacer le verso vers un album privé';
+$lang['Hide backside from albums'] = 'Masquer le verso dans les albums';
 $lang['This picture has a backside :'] = 'Cette image a un verso : ';
 
 $lang['Backside and frontside can\'t be the same picture'] = 'Verso et recto ne peuvent être la même image';

@@ -1,76 +1,32 @@
 <?php
 if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 
-include_once(PHPWG_PLUGINS_PATH.'Back2Front/functions.inc.php');
+defined('B2F_ID') or define('B2F_ID', basename(dirname(__FILE__)));
+include_once(PHPWG_PLUGINS_PATH . B2F_ID . '/include/install.inc.php');
+include_once(PHPWG_PLUGINS_PATH . B2F_ID . '/include/functions.inc.php');
 
 function plugin_install() 
 {
-  global $prefixeTable;
-
-  /* create table for recto/verso pairs | stores original verso categories */
-  pwg_query("CREATE TABLE IF NOT EXISTS `" . $prefixeTable . "image_verso` (
-    `image_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-    `verso_id` mediumint(8) unsigned NOT NULL DEFAULT '0',
-    `categories` varchar(128) NULL,
-    PRIMARY KEY (`image_id`),
-    UNIQUE KEY (`verso_id`)
-  ) DEFAULT CHARSET=utf8;");
+  back2front_install();
   
-  /* create a virtual category to store versos */
-  $versos_cat = create_virtual_category('Back2Front private album');
-  $versos_cat = array(
-    'id' => $versos_cat['id'],
-    'comment' => 'Used by Back2Front to store backsides.',
-    'status'  => 'private',
-    'visible' => 'false',
-    'commentable' => 'false',
-    );
-  mass_updates(
-    CATEGORIES_TABLE,
-    array(
-      'primary' => array('id'),
-      'update' => array_diff(array_keys($versos_cat), array('id'))
-      ),
-    array($versos_cat)
-    );
-    
-  /* config parameter */
-  pwg_query("INSERT INTO `" . CONFIG_TABLE . "`
-    VALUES ('back2front', '".$versos_cat['id'].",click,none,top,".serialize(array('default'=>null)).",1', 'Configuration for Back2Front plugin');");
+  define('back2front_installed', true);
 }
 
 function plugin_activate()
 {
-  global $conf;
-
-
-  $conf['back2front'] = explode(',', $conf['back2front']);
-  
-  if (!isset($conf['back2front'][3])) 
+  if (!defined('back2front_installed'))
   {
-    $conf['back2front'][3] = 'top';
-    $conf['back2front'][4] = serialize(array('default'=>null));
+    back2front_install();
   }
-  if (!isset($conf['back2front'][5]))
-  {
-    $conf['back2front'][5] = true;
-  }
-  
-  conf_update_param('back2front', implode (',', $conf['back2front'])); 
 }
 
 
-function plugin_uninstall() {
+function plugin_uninstall()
+{
   global $conf, $prefixeTable;
   
-  $conf['back2front'] = explode(',',$conf['back2front']);
+  $conf['back2front'] = unserialize($conf['back2front']);
   
-  /* versos must be restored to their original categories
-   criterias :
-    - verso € 'versos' cat only => restore verso to original categories
-    - otherwise nothing is changed
-  */
-
   $query = "SELECT * FROM `" . $prefixeTable . "image_verso`;";
   $images_versos = pwg_query($query);
   
@@ -81,9 +37,9 @@ function plugin_uninstall() {
 
   pwg_query("DROP TABLE `" . $prefixeTable . "image_verso`;");
   pwg_query("DELETE FROM `" . CONFIG_TABLE . "` WHERE param = 'back2front';");
-  pwg_query("DELETE FROM `" . CATEGORIES_TABLE ."`WHERE id = ".$conf['back2front'][0].";");
+  pwg_query("DELETE FROM `" . CATEGORIES_TABLE ."`WHERE id = ".$conf['back2front']['versos_cat'].";");
   
-  /* rebuild categories cache */
+  // rebuild categories cache
   include_once(PHPWG_ROOT_PATH.'admin/include/functions.php');
   invalidate_user_cache(true);
 }
