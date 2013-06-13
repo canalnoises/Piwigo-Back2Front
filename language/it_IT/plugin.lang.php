@@ -29,4 +29,5 @@ $lang['Seperate the two labels with the | symbol. Leave blank to use default tra
 $lang['This picture is a backside...'] = 'Questa immagine è il retro...';
 $lang['Toolbar'] = 'Toolbar';
 $lang['Top'] = 'Alto';
+$lang['Hide backside from albums'] = 'Nascondere il retro dell\'album';
 ?>
