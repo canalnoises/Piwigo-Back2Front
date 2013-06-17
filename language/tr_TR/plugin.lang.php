@@ -46,4 +46,5 @@ $lang['Move backside to private album'] = 'Arka kısmı özel albüme taşı';
 $lang['Modify backside information'] = 'Arka kısım bilgisini değiştir';
 $lang['Fade'] = 'Karart';
 $lang['Backside management'] = 'Arka kısım yönetimi';
+$lang['Hide backside from albums'] = 'Albümlerden arka kısmı gizle';
 ?>
