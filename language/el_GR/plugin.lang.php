@@ -46,4 +46,5 @@ $lang['Click'] = 'Κλικ';
 $lang['Backside management'] = 'Διαχείριση Backside ';
 $lang['Backside and frontside can\'t be the same picture'] = 'Η Πίσω και η Εμπρός πλευρά δεν μπορεί να είναι η ίδια εικόνα';
 $lang['...of the picture n°'] = '...της εικόνας n°';
+$lang['Hide backside from albums'] = 'Απόκρυψη την πίσω όψη από τα λευκώματα';
 ?>
