@@ -46,4 +46,5 @@ $lang['Mouseover'] = 'Mausover';
 $lang['Move backside to private album'] = 'Bewege Rückseite in privates Album';
 $lang['See back'] = 'Schau die Rückseite an';
 $lang['See front'] = 'Schau die Vorderseite an';
+$lang['Hide backside from albums'] = 'Verstecke Rückseite des Albums';
 ?>
