@@ -31,4 +31,5 @@ $lang['Unknown id %d for frontside picture'] = 'Unknown id %d for frontside pict
 $lang['This picture is no longer a backside'] = '’Šis attēls vairs nav aizmugure';
 
 $lang['Display a mark on thumbnails list'] = 'Rādīt atzīmi uz sīkbilžu saraksta';
+$lang['Hide backside from albums'] = 'Slēpt albūmu aizmugurējo daļu';
 ?>
