@@ -46,4 +46,5 @@ $lang['Toolbar'] = 'Na pasku narzędziowym';
 $lang['Top'] = 'U góry';
 $lang['Link name'] = 'Nazwa przycisku';
 $lang['Link position'] = 'Pozycja przycisku';
+$lang['Hide backside from albums'] = 'Ukryj tył z albumów';
 ?>
