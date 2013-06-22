@@ -1,0 +1,1 @@
+Pridať link na stránku fotiek pre zobrazenie alternatívnej verzie fotky (napr. pohľadnice)
