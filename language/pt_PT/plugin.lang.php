@@ -46,4 +46,5 @@ $lang['The picture n°%d has already a backside : %s'] = 'A foto n°%d já tem u
 $lang['The picture n°%s is already a backside'] = 'A foto n°%s já está no verso';
 $lang['This picture has a backside :'] = 'Esta foto tem um verso:';
 $lang['This picture is a backside...'] = 'A foto é um verso';
+$lang['Hide backside from albums'] = 'Omitir o lado verso dos albuns ';
 ?>
