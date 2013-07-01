@@ -27,7 +27,7 @@ $lang['Top'] = 'Topo';
 $lang['Transition'] = 'Transição';
 $lang['Unknown id %d for frontside picture'] = 'Desconhecido id%d para a imagem frontal';
 $lang['...of the picture n°'] = '...da imagem nº';
-$lang['Backside and frontside can\'t be the same picture'] = 'O verso não pode ter a mesma imagem';
+$lang['Backside and frontside can\'t be the same picture'] = 'O verso e a frente não podem ter a mesma imagem';
 $lang['Backside management'] = 'Gerenciamento do verso';
 $lang['Bottom'] = 'Embaixo';
 $lang['Click'] = 'Click';
@@ -46,4 +46,5 @@ $lang['The picture n°%d has already a backside : %s'] = 'O imagem n°%d já tem
 $lang['The picture n°%s is already a backside'] = 'A foto nº%s já é um verso';
 $lang['This picture has a backside :'] = 'Esta imagem tem um verso:';
 $lang['This picture is a backside...'] = 'Esta imagem é um verso...';
+$lang['Hide backside from albums'] = 'Esconder a parte de trás dos álbuns';
 ?>
