@@ -46,4 +46,5 @@ $lang['The picture n°%d has already a backside : %s'] = 'A képnek (n°%d) már
 $lang['The picture n°%s is already a backside'] = 'A kép (n°%s) már egy hátoldal';
 $lang['This picture has a backside :'] = 'Ennek a képnek van egy hátoldala';
 $lang['This picture is a backside...'] = 'Ez a kép egy hátoldal';
+$lang['Hide backside from albums'] = 'Albumokból rejtsd el a hátoldalt';
 ?>
