@@ -46,4 +46,5 @@ $lang['The picture n°%d has already a backside : %s'] = '图片 n°%d 已有反
 $lang['The picture n°%s is already a backside'] = '图片 n°%s 已被设为反面';
 $lang['This picture has a backside :'] = '本图片有反面：';
 $lang['This picture is a backside...'] = '本图片为反面...';
+$lang['Hide backside from albums'] = '从相册隐藏背面';
 ?>
