@@ -31,4 +31,5 @@ $lang['This picture is now the backside of the picture n°%s'] = 'Tato fotka je 
 $lang['Unknown id %d for frontside picture'] = 'Neznámé id %d pro přední náhled fotky';
 $lang['This picture is no longer a backside'] = 'Tento obrázek není dlouho zadním náhledem';
 
+$lang['Hide backside from albums'] = 'Skrýt zadní stranu alb';
 ?>
