@@ -334,6 +334,11 @@ function back2front_thumbnails($tpl_thumbnails_var)
 {
   global $conf, $selection;
   
+  if (!isset($selection))
+  {
+    return $tpl_thumbnails_var;
+  }
+
   if (!$conf['back2front']['show_thumbnail']) return $tpl_thumbnails_var;
   if (empty($tpl_thumbnails_var)) return $tpl_thumbnails_var;
     
