@@ -1,5 +1,5 @@
 <?php
-if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
+defined('PHPWG_ROOT_PATH') or die('Hacking attempt!');
 
 /*
  * restore verso to its original categories
@@ -84,7 +84,7 @@ SELECT COUNT(*) FROM '.CATEGORIES_TABLE.'
     );
     
   $conf['back2front']['versos_cat'] = $versos_cat['id'];
-  conf_update_param('back2front', serialize($conf['back2front']));
+  conf_update_param('back2front', $conf['back2front']);
 }
 
 function picture_exists($id)
@@ -105,5 +105,3 @@ if (!function_exists('stripslashes_deep'))
     return is_array($value) ? array_map('stripslashes_deep', $value) : stripslashes($value);
   }
 }
-
-?>

@@ -1,5 +1,5 @@
 <?php
-if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
+defined('PHPWG_ROOT_PATH') or die('Hacking attempt!');
 
 global $conf, $template;
 
@@ -17,8 +17,8 @@ if (isset($_POST['submit']))
     'show_thumbnail' => isset($_POST['show_thumbnail']),
     );
   
-  conf_update_param('back2front', serialize($conf['back2front']));
-  array_push($page['infos'], l10n('Information data registered in database'));
+  conf_update_param('back2front', $conf['back2front']);
+  $page['infos'][] = l10n('Information data registered in database');
 }
 
 // Gestion des langues pour le bloc menu
@@ -47,5 +47,3 @@ $template->assign(array(
   
 $template->set_filename('back2front_conf', realpath(B2F_PATH.'template/admin.tpl'));
 $template->assign_var_from_handle('ADMIN_CONTENT', 'back2front_conf');
-
-?>

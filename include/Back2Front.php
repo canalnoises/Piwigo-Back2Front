@@ -1,5 +1,5 @@
 <?php 
-if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
+defined('PHPWG_ROOT_PATH') or die('Hacking attempt!');
 
 include_once(B2F_PATH.'include/functions.inc.php');
 
@@ -362,5 +362,3 @@ SELECT image_id
   
   return $tpl_thumbnails_var;
 }
-
-?>
