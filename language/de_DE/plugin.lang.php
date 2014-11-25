@@ -21,30 +21,28 @@
 // | USA.                                                                  |
 // +-----------------------------------------------------------------------+
 $lang['Unknown id %d for frontside picture'] = 'Unbekannte ID %d für das Vorderseiten-Bild';
-$lang['Bottom'] = 'Fuß';
+$lang['Bottom'] = 'Fussbereich';
 $lang['Toolbar'] = 'Symbolleiste';
-$lang['Top'] = 'Kopf';
+$lang['Top'] = 'Kopfbereich';
 $lang['Transition'] = 'Übergang';
-$lang['Seperate the two labels with the | symbol. Leave blank to use default translation.'] = 'Separiere die beiden Tabs mit dem | Zeichen. Lasse es leer um die Standard-Übersetzung zu benutzen.';
+$lang['Seperate the two labels with the | symbol. Leave blank to use default translation.'] = 'Die beiden Bezeichnungen mit dem Pipe-Zeichen trennen. Leer lassen für Standard-Übersetzung.';
 $lang['Switch mode'] = 'Modus umschalten';
 $lang['The picture n°%d has already a backside : %s'] = 'Das Bild Nr. %d hat bereits eine Rückseite: %s';
 $lang['The picture n°%s is already a backside'] = 'Das Bild Nr. %s ist bereits eine Rückseite';
 $lang['This picture has a backside :'] = 'Dieses Bild hat eine Rückseite:';
 $lang['This picture is a backside...'] = 'Dieses Bild ist eine Rückseite...';
-$lang['This picture is no longer a backside'] = 'Dieses Bild ist nicht länger eine Rückseite';
-$lang['This picture is now the backside of the picture n°%s'] = 'Dieses Bild ist nun die Rückseite des Bildes Nr. %s';
+$lang['This picture is no longer a backside'] = 'Dieses Bild ist keine Rückseite mehr';
+$lang['This picture is now the backside of the picture n°%s'] = 'Dieses Bild ist nun die Rückseite der Bildnummer %s';
 $lang['...of the picture n°'] = '... der Bildnummer';
 $lang['Backside and frontside can\'t be the same picture'] = 'Vorder- und Rückseite können nicht das gleiche Bild sein';
-$lang['Backside management'] = 'Rückseiten Einstellungen';
+$lang['Backside management'] = 'Rückseiten-Verwaltung';
 $lang['Click'] = 'Klick';
-$lang['Display a mark on thumbnails list'] = 'Zeige ein Zeichen auf der Vorschaubild-Liste';
-$lang['Fade'] = 'Blenden';
-$lang['Link name'] = 'Schaltfläche Name';
-$lang['Link position'] = 'Schaltfläche Position';
-$lang['Modify backside information'] = 'Editiere Rückseiten Informationen';
+$lang['Display a mark on thumbnails list'] = 'Markierung auf der Vorschaubild-Liste anzeigen';
+$lang['Fade'] = 'Überblenden';
+$lang['Link name'] = 'Schaltflächen-Name';
+$lang['Link position'] = 'Schaltflächen-Position';
+$lang['Modify backside information'] = 'Rückseiten-Informationen bearbeiten';
 $lang['Mouseover'] = 'Mausover';
-$lang['Move backside to private album'] = 'Bewege Rückseite in privates Album';
-$lang['See back'] = 'Schau die Rückseite an';
-$lang['See front'] = 'Schau die Vorderseite an';
-$lang['Hide backside from albums'] = 'Verstecke Rückseite des Albums';
-?>
+$lang['See back'] = 'Rückseite betrachten';
+$lang['See front'] = 'Vorderseite betrachten';
+$lang['Hide backside from albums'] = 'Alben-Rückseite ausblenden';
