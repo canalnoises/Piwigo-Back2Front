@@ -1,0 +1,1 @@
+Permet afegir un enllaç en la pàgina de la imatge per a mostrar una versió alternativa de l'imatge (Per exemple per a fer postals)
