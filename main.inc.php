@@ -6,6 +6,7 @@ Description: Add a link on picture's page to show a alternative version of the p
 Plugin URI: auto
 Author: Mistic
 Author URI: http://www.strangeplanet.fr
+Has Settings: true
 */
 
 defined('PHPWG_ROOT_PATH') or die('Hacking attempt!');

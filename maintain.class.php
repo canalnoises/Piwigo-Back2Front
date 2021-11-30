@@ -29,7 +29,7 @@ class Back2Front_maintain extends PluginMaintain
     if (empty($conf['back2front']))
     {
       // create virtual private cat for storage
-      include_once(PHPWG_ROOT_PATH . 'admin/include/functions.inc.php');
+      include_once(PHPWG_ROOT_PATH . 'admin/include/functions.php');
       $cat = create_virtual_category('Back2Front private album');
       $info = array(
         'comment' => 'Used by Back2Front to store backsides.',
