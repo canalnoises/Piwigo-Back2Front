@@ -319,7 +319,7 @@ SELECT verso_id
 }
 
 
-function back2front_picture_modify_prefilter($content, &$smarty)
+function back2front_picture_modify_prefilter($content)
 {
   $search = '</form>';
   $replacement = $search."\n\n".file_get_contents(B2F_PATH.'template/picture_modify.tpl');
