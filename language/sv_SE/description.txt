@@ -1,0 +1,1 @@
+Lägg till en länk på bildens sida för att visa en alternativ version av bilden (till exempel för vykort)
