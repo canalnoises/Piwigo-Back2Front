@@ -18,17 +18,17 @@ $lang['Display a mark on thumbnails list'] = 'Display a mark on thumbnails list'
 
 $lang['Seperate the two labels with the | symbol. Leave blank to use default translation.'] = 'Separate the two labels with the | symbol. Leave blank to use default translation.';
 
-$lang['This picture is a backside...'] = 'This picture is a backside...';
-$lang['...of the picture n°'] = '...of the picture n°';
-$lang['Backside management'] = 'Backside management';
-$lang['Hide backside from albums'] = 'Hide backside from albums';
-$lang['This picture has a backside :'] = 'This picture has a backside: ';
+$lang['This picture is a backside...'] = 'This image is a backside...';
+$lang['...of the picture n°'] = 'of image id: ';
+$lang['Backside management'] = 'Backside Management';
+$lang['Hide backside from albums'] = 'Hide backside image from albums';
+$lang['This picture has a backside :'] = 'This image has backside image id: ';
 
-$lang['Backside and frontside can\'t be the same picture'] = 'Backside and frontside can\'t be the same picture';
-$lang['The picture n°%d has already a backside : %s'] = 'The picture n°%d has already a backside: %s';
-$lang['The picture n°%s is already a backside'] = 'The picture n°%s is already a backside';
-$lang['This picture is now the backside of the picture n°%s'] = 'This picture is now the backside of the picture n°%s';
-$lang['Unknown id %d for frontside picture'] = 'Unknown id %d for frontside picture';
-$lang['This picture is no longer a backside'] = 'This picture is no longer a backside';
+$lang['Backside and frontside can\'t be the same picture'] = 'Backside and frontside images can\'t be the same';
+$lang['The picture n°%d has already a backside : %s'] = 'Image id=%d already has a backside: %s';
+$lang['The picture n°%s is already a backside'] = 'Image id=%s is already a backside';
+$lang['This picture is now the backside of the picture n°%s'] = 'This image is now the backside of image id = %s';
+$lang['Unknown id %d for frontside picture'] = 'Unknown image id %d for frontside image';
+$lang['This picture is no longer a backside'] = 'This image is no longer a backside';
 
 ?>

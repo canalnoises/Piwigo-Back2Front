@@ -22,18 +22,18 @@ $(document).ready(function () {ldelim}
   {else}
     <table style="min-width:400px;">
       <tr>
+	<td><input type="checkbox" name="b2f_is_verso" {if isset($B2F_IS_VERSO)}{$B2F_IS_VERSO}"{/if}></td>
         <td><b>{'This picture is a backside...'|@translate}</b></td>
-        <td style="width:70px"><input type="checkbox" name="b2f_is_verso" {$B2F_IS_VERSO}></td>
       </tr>
       
       <tr class="frontside_param" {if !isset($B2F_IS_VERSO)}style="display:none;"{/if}>
-        <td><b>{'...of the picture n°'|@translate}</b></td>
-        <td><input type="text" size="4" name="b2f_front_id" value="{$B2F_FRONT_ID}"></td>
+        <td></td>
+        <td><b>{'...of the picture n°'|@translate}</b><input type="text" size="4" name="b2f_front_id" value="{$B2F_FRONT_ID}"></td>
       </tr>
       
       <tr class="frontside_param" {if !isset($B2F_IS_VERSO)}style="display:none;"{/if}>
-        <td><b>{'Hide backside from albums'|@translate}</b></td>
         <td><input type="checkbox" name="b2f_move_verso" {$B2F_MOVE_VERSO}></td>
+        <td><b>{'Hide backside from albums'|@translate}</b></td>
       </tr>
     </table>
 

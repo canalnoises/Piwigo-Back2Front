@@ -1,0 +1,4 @@
+File automatically created from SVN or Git repository.
+
+URL: https://github.com/Piwigo/Piwigo-Back2Front 
+Revision: b65e92aca1f2ac414a2cfdc0472a5d42e93ce87b (Tue Nov 30 15:07:57 2021 +0100)
