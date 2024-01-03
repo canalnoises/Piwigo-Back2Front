@@ -4,7 +4,11 @@ defined('PHPWG_ROOT_PATH') or die('Hacking attempt!');
 include_once(B2F_PATH.'include/functions.inc.php');
 
 /*
- * Add verso link on picture page
+ * Add the back (verso) link on image page.
+ * Terminology note:
+ * Recto: means the front of something, like the right page in a book, think recto, right side.
+ * Verso: means the back of something, like a coin, or the left page in a book. think reVERSO, or vice versa.
+ * It is a little counter-intuitive. In english, it's easy to think of the backside one when sees recto.
  */
 function back2front_picture_content($content, $element_info)
 {
@@ -119,7 +123,7 @@ function back2front_picture_modify()
 /* SAVE VALUES */
   if (isset($_POST['b2f_submit']))
   {
-    /* catch all verso and recto ids and original categories */
+    /* catch all back (verso) and front (recto) ids and original categories */
     $query = 'SELECT * FROM '.B2F_TABLE.';';
     $result = pwg_query($query);
     
@@ -143,10 +147,10 @@ function back2front_picture_modify()
     }
     unset($rectos, $versos, $cats);
     
-    /* picture is verso */
+    /* picture is a back (verso) */
     if (isset($_POST['b2f_is_verso']))
     {      
-      /* verso don't exists */
+      /* back (verso) doesn't exists */
       if (!picture_exists($_POST['b2f_front_id']))
       {
         array_push($page['errors'], sprintf(
@@ -154,12 +158,12 @@ function back2front_picture_modify()
           $_POST['b2f_front_id']
           ));
       }
-      /* verso same as recto  */
+      /* back (verso) is same as front (recto)  */
       else if ($_POST['b2f_front_id'] == $_GET['image_id'])
       {
         array_push($page['errors'], l10n('Backside and frontside can\'t be the same picture'));
       }
-      /* recto has already a verso */
+      /* front (recto) already has a back (verso) */
       else if (in_array($_POST['b2f_front_id'], array_keys($all_recto_verso)) && $all_recto_verso[$_POST['b2f_front_id']] != $_GET['image_id'])
       {
         $recto_current_verso['id'] = $all_recto_verso[$_POST['b2f_front_id']];
@@ -171,7 +175,7 @@ function back2front_picture_modify()
           '<a href="'.$recto_current_verso['link'].'">'.$recto_current_verso['id'].'</a>'
           ));
       }
-      /* recto is already a verso */
+      /* front (recto) is already a back (verso) */
       else if (in_array($_POST['b2f_front_id'], array_values($all_recto_verso)))
       {
         $recto_is_verso['id'] = $_POST['b2f_front_id'];
@@ -185,7 +189,8 @@ function back2front_picture_modify()
       /* everything is fine */
       else
       {
-        // move the verso - if first save
+        // move the back (verso) - if first save
+
         if (isset($_POST['b2f_move_verso']) && (!array_key_exists($_GET['image_id'], $verso_cats) || $verso_cats[$_GET['image_id']] == null))
         {
           // get current categories
@@ -201,7 +206,7 @@ function back2front_picture_modify()
           $verso_categories = isset($verso_cats[$_GET['image_id']]) ? $verso_cats[$_GET['image_id']] : implode(',',$verso_categories);
           $template->assign('B2F_MOVE_VERSO', 'checked="checked"');
         }
-        // restore the verso - if precedently moved
+        // restore the back (verso) - if precedently moved
         else if (!isset($_POST['b2f_move_verso']) && array_key_exists($_GET['image_id'], $verso_cats) && $verso_cats[$_GET['image_id']] != null)
         {
           $item['verso_id'] = $_GET['image_id'];
@@ -211,14 +216,14 @@ function back2front_picture_modify()
           $verso_categories = 'NULL';
           $template->assign('B2F_MOVE_VERSO', '');
         }
-        // leave the verso
+        // leave the back (verso)
         else
         {
           $verso_categories = isset($verso_cats[$_GET['image_id']]) ? $verso_cats[$_GET['image_id']] : 'NULL';
           $template->assign('B2F_MOVE_VERSO', isset($verso_cats[$_GET['image_id']]) ? 'checked="checked"' : '');
         }
         
-        // insert or update verso associations
+        // insert or update back (verso) associations
         $query = '
 INSERT INTO '.B2F_TABLE.'
   VALUES(
@@ -246,10 +251,10 @@ INSERT INTO '.B2F_TABLE.'
           ));
       }
     }
-    /* picture isn't verso */
+    /* picture isn't back (verso) */
     else
     {
-      /* search if it was a verso */
+      /* search if it was a back (verso) */
       $query = '
 SELECT categories
   FROM '.B2F_TABLE.'
@@ -273,9 +278,8 @@ SELECT categories
 /* GET SAVED VALUES */
   if ($template->get_template_vars('B2F_IS_VERSO') == null)
   {
-    $template->assign('B2F_MOVE_VERSO', 'checked="checked"');
     
-    /* is the picture a verso ? */
+    /* is the picture a back (verso) ? */
     $query = '
 SELECT image_id, categories
   FROM '.B2F_TABLE.'
@@ -286,14 +290,16 @@ SELECT image_id, categories
     if (pwg_db_num_rows($result))
     {
       list($recto_id, $cats) = pwg_db_fetch_row($result);
-      
+      $backside_hidden = (isset($cats) && !empty($cats) && $cats != "NULL");
       $template->assign(array(
         'B2F_IS_VERSO' => 'checked="checked"',
         'B2F_FRONT_ID' => $recto_id,
-        'B2F_MOVE_VERSO' => $cats != NULL ? 'checked="checked"' : '',
+        'B2F_MOVE_VERSO' => $backside_hidden ? 'checked="checked"' : ''
       ));
     }
-    /* is the picture a front ? */
+    /* The image is either a front (recto) for some back (verso),
+    ** or is neither a front (recto) nor a back (verso).
+    */
     else
     {
       $query = '
@@ -303,6 +309,8 @@ SELECT verso_id
 ;';
       $result = pwg_query($query);
       
+      // If there are rows, then the image is the front (recto) for some back (verso).
+      // This logic will simply display the back (verso) image id# in the template.
       if (pwg_db_num_rows($result))
       {      
         $item = pwg_db_fetch_assoc($result);
@@ -310,6 +318,16 @@ SELECT verso_id
         $template->assign(array(
           'B2F_VERSO_ID' => $item['verso_id'],
           'B2F_VERSO_URL' => get_root_url().'admin.php?page=photo-'.$item['verso_id'],
+        ));
+      } 
+      // Otherwise this image is neither a front (recto) nor a back (verso).
+      // This logic provides the options of making it a back (verso) to some other front (recto) in the template.
+      else
+      {
+        $template->assign(array(
+          //'B2F_IS_VERSO' => '', // The template checks if this is unset and creates an *unchecked* box for "this is a backside".
+          'B2F_FRONT_ID' => '',
+          'B2F_MOVE_VERSO' => '',
         ));
       }
     }
